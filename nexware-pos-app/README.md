@@ -63,7 +63,7 @@ NativePHP's current Android configuration packages the embedded PHP runtime for 
 
 ### Windows PowerShell
 
-Run NativePHP directly in **Windows PowerShell**, not in WSL. Install PHP 8.3+ (Laravel Herd is one option), Composer, Node.js, and JDK 17. Install 7-Zip. In Android Studio's SDK Manager, install the platform and build tools above. Then set the SDK/JDK variables for the current PowerShell session, adjusting `JAVA_HOME` if JDK 17 is installed elsewhere:
+Run NativePHP directly in **Windows PowerShell**, not in WSL. Install PHP 8.3+ (Laravel Herd is one option), Composer, Node.js, and JDK 17. The locked Vite 8 toolchain requires Node.js 20.19+ or 22.12+. Install 7-Zip. In Android Studio's SDK Manager, install Android SDK Platform 36, Android SDK Build-Tools, Android SDK Platform-Tools, and NDK `27.0.12077973`, as required by the generated Android Gradle configuration. Then set the SDK/JDK variables for the current PowerShell session, adjusting `JAVA_HOME` if JDK 17 is installed elsewhere:
 
 ```powershell
 $env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
@@ -76,30 +76,38 @@ php -v
 php -m | Select-String "zip|pdo_sqlite|sqlite3"
 ```
 
-If Android Studio has a different SDK location, use the path shown under **File → Settings → Languages & Frameworks → Android SDK** instead. If `java -version` or `adb devices` fails, fix the corresponding install/path before continuing. Open the project in Windows and run:
+If Android Studio has a different SDK location, use the path shown under **File → Settings → Languages & Frameworks → Android SDK** instead. If `java -version` or `adb devices` fails, fix the corresponding install/path before continuing. Open the existing repository in Windows and run:
 
 ```powershell
 Set-Location .\nexware-pos-app
-composer install
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-php artisan key:generate
-if (-not (Test-Path database\database.sqlite)) { New-Item -ItemType File database\database.sqlite | Out-Null }
-php artisan migrate
-npm install
-npm run build
-php artisan vendor:publish --tag=nativephp-plugins-provider
-php artisan native:plugin:register nativephp/mobile-ui
-php artisan native:install android
-php artisan native:run android
+.\scripts\check-environment.ps1
+.\scripts\setup-local.ps1
+php artisan migrate:status
 ```
 
-If the plugin provider is already present, skip the `vendor:publish` command. Keep the emulator running or connect the phone before the final command. To run the same app again later, usually only `php artisan native:run android` is needed.
+Review any pending migration files and confirm which database `.env` selects before running `php artisan migrate`; never reset or replace an existing database. Check `php artisan list native` before using a NativePHP command. If the ignored Android scaffold is missing in this checkout, `php artisan native:install android` generates it; inspect the existing setup first and do not reinitialize a scaffold that is already present. Register/publish the UI plugin only if it is not already registered. With the Android environment and authorized device ready, run `php artisan native:run android`.
+
+For an existing Windows checkout, use the non-destructive helper scripts from `nexware-pos-app`:
+
+```powershell
+.\scripts\check-environment.ps1
+.\scripts\setup-local.ps1
+.\scripts\start-local.ps1
+```
+
+`setup-local.ps1` preserves an existing `.env` and APP_KEY, installs locked Composer/npm dependencies, and builds the frontend. It does not run migrations; review `php artisan migrate:status` and the pending migration files before running `php artisan migrate` against the intended local database. `start-local.ps1` serves the browser preview at `http://127.0.0.1:8000`. Run Android commands only from Windows PowerShell with the SDK, JDK, and device configured.
+
+## Syncing between Windows and Codespaces
+
+Both environments should use separate working copies of the same GitHub repository and branch. Before switching environments, check `git status --short --branch`; commit or otherwise preserve intended source changes before pulling. Pull only the branch you intend to use, for example `git pull --ff-only origin main`, then stage only the source files you mean to share, commit, and push with `git push origin main`. Use your actual feature branch instead of `main` when applicable. If Git reports a conflict or a non-fast-forward update, stop and resolve it deliberately; do not force-push or discard local work. `.env`, SQLite databases, generated Android files, and signing artifacts are ignored and should be configured or backed up separately in each environment.
 
 ## Codespaces limitations
 
-Codespaces runs on Linux, which NativePHP supports for Android builds, but this workspace does not have Android Studio, the Android SDK, ADB, or an embedded NativePHP PHP binary. Android emulators also need virtualization and a graphical environment that a typical Codespace does not expose. This Linux Codespace cannot control Android Studio or an emulator installed separately on your Windows computer. Run NativePHP from the Windows project directory for a local Windows build.
+NativePHP supports Android builds on Linux. In the Codespace checked for this project, the Android SDK is at `/home/codespace/android-sdk`, JDK 17 is installed, and the generated scaffold includes the embedded PHP runtime archive. Set `ANDROID_HOME` and `ANDROID_SDK_ROOT` to that SDK path, set `JAVA_HOME` to the installed JDK 17 path, and add the SDK's `platform-tools` directory to `PATH` before running Android commands. The current scaffold targets API 36, requires NDK `27.0.12077973`, and builds ARM64 only.
 
-The scaffold in `nativephp/` is generated by NativePHP and intentionally ignored by Git; re-create it with `php artisan native:install android` after installing the Android prerequisites. iOS builds require macOS and Xcode and cannot be produced in a Linux Codespace.
+The Android Gradle debug build succeeds in this Codespace, but this instance has no configured AVD or attached device, and its user cannot access KVM. As a result, `php artisan native:run android` cannot launch the app here until an authorized Android target is available. Android emulator and USB-device availability varies by Codespaces host; it cannot control Android Studio or an emulator installed separately on your Windows computer. iOS builds require macOS and Xcode and cannot be produced in a Linux Codespace.
+
+The scaffold in `nativephp/` is generated by NativePHP and intentionally ignored by Git. If it is missing, create it with `php artisan native:install android`; do not reinitialize a scaffold that is already present.
 
 ## Validation
 

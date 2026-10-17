@@ -526,6 +526,375 @@ a {
     }
 }
 
+body.app-shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    min-height: 100vh;
+    background: #f5f7f2;
+}
+
+.sidebar {
+    padding: 28px 22px;
+    border-right: 1px solid #e6ebdf;
+    background: #f0f6ed;
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.brand-block strong {
+    display: block;
+    font-size: 1rem;
+}
+
+.brand-block span {
+    color: #6b7a72;
+    font-size: 0.76rem;
+}
+
+.nav-links {
+    display: grid;
+    gap: 8px;
+}
+
+.nav-links a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #375141;
+    font-weight: 600;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    background: #dceec4;
+    color: #153f3a;
+}
+
+.main-content {
+    padding: 32px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.topbar h1 {
+    margin: 8px 0 0;
+    color: #173a31;
+    font-size: clamp(2rem, 2.5vw, 2.75rem);
+    letter-spacing: -0.06em;
+}
+
+.primary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 12px;
+    background: #164c3c;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    padding: 22px 20px;
+    border: 1px solid #e5ebdf;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.stat-card span {
+    display: block;
+    margin-bottom: 12px;
+    color: #5f716a;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.stat-card strong {
+    color: #173a31;
+    font-size: clamp(1.7rem, 2vw, 2.4rem);
+    letter-spacing: -0.06em;
+}
+
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.panel {
+    padding: 22px;
+    border: 1px solid #e5ebdf;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.panel-header h2,
+.panel h2 {
+    margin: 0;
+    color: #173a31;
+}
+
+.panel-header a {
+    color: #2c5b49;
+    font-weight: 700;
+}
+
+.list-stack {
+    display: grid;
+    gap: 12px;
+}
+
+.list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 12px;
+    border: 1px solid #edf1ec;
+    border-radius: 12px;
+    background: #f9fbf7;
+}
+
+.list-row strong {
+    display: block;
+    color: #1d4036;
+}
+
+.list-row small {
+    color: #61756d;
+}
+
+.stock-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #ebf4e6;
+    color: #284f3e;
+    font-size: 0.73rem;
+    font-weight: 700;
+}
+
+.stock-pill.critical {
+    background: #fbe7d0;
+    color: #7d4b17;
+}
+
+.stock-pill.healthy {
+    background: #e3f0d4;
+    color: #2a5c39;
+}
+
+.empty-text {
+    margin: 0;
+    color: #697b73;
+}
+
+.flash {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.flash.success {
+    background: #eaf8d6;
+    color: #2c5d33;
+}
+
+.flash.error {
+    background: #fde9d0;
+    color: #934b1a;
+}
+
+.product-form-panel {
+    margin-bottom: 22px;
+}
+
+.product-form {
+    display: grid;
+    gap: 18px;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+label {
+    display: grid;
+    gap: 8px;
+    color: #345146;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #dfe8db;
+    border-radius: 10px;
+    background: #fff;
+    color: #1a2d27;
+    font: inherit;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 28px;
+}
+
+.checkbox-field input {
+    width: auto;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #edf1ec;
+    text-align: left;
+}
+
+th {
+    color: #678078;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.pagination-wrap {
+    margin-top: 18px;
+}
+
+.pos-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) 340px;
+    gap: 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.pos-product-card {
+    padding: 16px;
+    border: 1px solid #e7ede4;
+    border-radius: 14px;
+    background: #f9faf7;
+}
+
+.product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.product-header h3 {
+    margin: 0;
+    color: #1a3d34;
+}
+
+.pos-product-card p {
+    margin: 8px 0 10px;
+    color: #688077;
+}
+
+.checkout-panel form {
+    display: grid;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.totals-box {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #f3f7ee;
+}
+
+.totals-box div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #49625b;
+}
+
+@media (max-width: 920px) {
+    body.app-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #e6ebdf;
+    }
+
+    .main-content {
+        padding: 22px 16px 30px;
+    }
+
+    .panel-grid,
+    .pos-layout,
+    .field-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

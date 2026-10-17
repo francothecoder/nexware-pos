@@ -100,11 +100,11 @@ return [
     |
     | The initial URL/path to load when the app starts. This should be a
     | path relative to the app root (e.g., "/dashboard", "/onboarding").
-    | If not set, the app will load the root path ("/").
+    | If not set, the app loads the default welcome screen ("/welcome").
     |
     */
 
-    'start_url' => env('NATIVEPHP_START_URL', '/'),
+    'start_url' => env('NATIVEPHP_START_URL', '/welcome'),
 
     /*
     |--------------------------------------------------------------------------
